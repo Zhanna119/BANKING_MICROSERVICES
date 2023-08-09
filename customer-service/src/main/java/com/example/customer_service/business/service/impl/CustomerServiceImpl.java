@@ -81,11 +81,4 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Deleting customer with id {}", id);
         repository.deleteById(id);
     }
-
-    public Flux<Account> getAccountsByCustomerId(String customerId) {
-        return webClient.get()
-                .uri("/id/" + customerId)
-                .retrieve()
-                .bodyToFlux(Account.class);
-    }
 }

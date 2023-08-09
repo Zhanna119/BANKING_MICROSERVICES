@@ -1,4 +1,4 @@
-use bank;
+use `banking_customer-service`;
 
 DROP TABLE IF EXISTS customers;
 

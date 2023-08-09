@@ -14,7 +14,5 @@ public interface CustomerService {
     Optional<Customer> editCustomer(Long id, Customer updatedCustomer);
     Customer saveCustomer(Customer customer);
     void deleteCustomerById(Long id);
-    Flux<Account> getAccountsByCustomerId(String customerId);
-   /* Flux<Loan> getLoansByCustomerId(String customerId);
-    Flux<CreditCard> getCreditCardsByCustomerId(String customerId);*/
+
 }

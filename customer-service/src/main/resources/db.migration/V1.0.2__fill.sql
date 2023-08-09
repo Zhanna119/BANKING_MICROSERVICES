@@ -1,4 +1,4 @@
-use bank;
+use `banking_customer-service`;
 
 INSERT INTO customers(name, surname, customer_identity_number)
 VALUES
