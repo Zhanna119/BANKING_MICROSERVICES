@@ -3,10 +3,11 @@ package com.example.customer_service.controller;
 import com.example.account_service.model.Account;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
-import com.example.customer_service.config.AccountClient;
+import com.example.customer_service.config.WebCustomer;
 import com.example.customer_service.model.Customer;
 import com.example.customer_service.swagger.DescriptionVariables;
 import com.example.customer_service.swagger.HTMLResponseMessages;
+import com.example.loan_service.model.Loan;
 import io.swagger.annotations.*;
 import jakarta.validation.Valid;
 import lombok.NonNull;
@@ -30,6 +31,11 @@ public class CustomerController {
     @Autowired
     CustomerRepository repository;
 
+   /* private LoanFeignClient loanFeignClient;
+
+    public CustomerController(LoanFeignClient loanFeignClient) {
+        this.loanFeignClient = loanFeignClient;
+    }*/
 
     @GetMapping("/all")
     @ApiOperation(value = "Finds all customers list",
@@ -153,8 +159,18 @@ public class CustomerController {
 
     @GetMapping("/{customerId}/accounts")
     public Flux<Account> getAccountsByCustomerId(@PathVariable String customerId) {
-        return AccountClient.getAccountsByCustomerId(customerId);
+        return WebCustomer.getAccountsByCustomerId(customerId);
     }
+    @GetMapping("/{customerId}/loans")
+    public Flux<Loan> getLoansByCustomerId(@PathVariable String customerId) {
+        return WebCustomer.getLoansByCustomerId(customerId);
+    }
+
+   /* @GetMapping("/{customerId}/loans")
+    public ResponseEntity<Loan> getLoanById(Long id) {
+        return loanFeignClient.getLoanById(id);
+    }*/
+
 
 }
 
