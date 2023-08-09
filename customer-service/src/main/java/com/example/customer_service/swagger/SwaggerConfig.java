@@ -1,5 +1,6 @@
 package com.example.customer_service.swagger;
 
+import org.springframework.stereotype.Component;
 import springfox.documentation.service.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @EnableWebMvc
+
 public class SwaggerConfig implements WebMvcConfigurer {
 
     @Bean

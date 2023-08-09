@@ -3,7 +3,7 @@ package com.example.customer_service.controller;
 import com.example.account_service.model.Account;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
-import com.example.customer_service.config.WebClientBuilder;
+import com.example.customer_service.config.AccountClient;
 import com.example.customer_service.model.Customer;
 import com.example.customer_service.swagger.DescriptionVariables;
 import com.example.customer_service.swagger.HTMLResponseMessages;
@@ -30,11 +30,6 @@ public class CustomerController {
     @Autowired
     CustomerRepository repository;
 
-    private WebClientBuilder webClientBuilder;
-
-    public CustomerController(WebClientBuilder webClientBuilder) {
-        this.webClientBuilder = webClientBuilder;
-    }
 
     @GetMapping("/all")
     @ApiOperation(value = "Finds all customers list",
@@ -158,7 +153,8 @@ public class CustomerController {
 
     @GetMapping("/{customerId}/accounts")
     public Flux<Account> getAccountsByCustomerId(@PathVariable String customerId) {
-        return WebClientBuilder.getAccountsByCustomerId(customerId);
+        return AccountClient.getAccountsByCustomerId(customerId);
     }
+
 }
 

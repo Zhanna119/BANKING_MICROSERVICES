@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
-//@Import(SwaggerConfig.class)
 public class CustomerServiceApplication {
 
     public static void main(String[] args) {
