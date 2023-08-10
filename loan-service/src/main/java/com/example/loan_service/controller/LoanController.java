@@ -158,7 +158,7 @@ public class LoanController {
         return  ResponseEntity.ok().build();
     }
 
-    @GetMapping("customerId/{customerId}")
+    @GetMapping("id/{customerId}")
     @ApiOperation(value = "Finds loans by customer id",
             notes = "Provide a customer id to search all customer loans",
             response = Loan.class)

@@ -4,6 +4,7 @@ import com.example.account_service.model.Account;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.config.WebCustomer;
+import com.example.customer_service.feign.LoanFeignClient;
 import com.example.customer_service.model.Customer;
 import com.example.customer_service.swagger.DescriptionVariables;
 import com.example.customer_service.swagger.HTMLResponseMessages;
@@ -31,11 +32,11 @@ public class CustomerController {
     @Autowired
     CustomerRepository repository;
 
-    /*private LoanFeignClient loanFeignClient;
+    private LoanFeignClient loanFeignClient;
 
     public CustomerController(LoanFeignClient loanFeignClient) {
         this.loanFeignClient = loanFeignClient;
-    }*/
+    }
 
     @GetMapping("/all")
     @ApiOperation(value = "Finds all customers list",
@@ -166,11 +167,9 @@ public class CustomerController {
         return WebCustomer.getLoansByCustomerId(customerId);
     }
 
-   /*@GetMapping("/loansFei")
-    public ResponseEntity<Loan> getLoanById() {
-        return loanFeignClient.getAllCustomerLoans();
-    }*/
-
-
+    @GetMapping("/{customerId}/loansFeign")
+    public ResponseEntity<List<Loan>> getLoanById(@PathVariable Long customerId) {
+        return loanFeignClient.getLoanById(customerId);
+    }
 }
 

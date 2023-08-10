@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux;
 @Component
 public class WebCustomer {
     private static final String baseUrlAccounts = "http://localhost:9632/api/accounts";
-    private static final String getBaseUrlLoans = "http://localhost:9633/api/loans";
+    private static final String baseUrlLoans = "http://localhost:9633/api/loans";
 
     public static Flux<Account> getAccountsByCustomerId(String customerId) {
         Flux<Account> accounts = WebClient.create(baseUrlAccounts)
@@ -21,9 +21,9 @@ public class WebCustomer {
     }
 
     public static Flux<Loan> getLoansByCustomerId(String customerId) {
-        Flux<Loan> loans = WebClient.create(getBaseUrlLoans)
+        Flux<Loan> loans = WebClient.create(baseUrlLoans)
                 .get()
-                .uri("/getById/" + customerId)
+                .uri("/id/" + customerId)
                 .retrieve()
                 .bodyToFlux(Loan.class);
         return loans;
