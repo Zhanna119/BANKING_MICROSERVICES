@@ -31,7 +31,7 @@ public class CustomerController {
     @Autowired
     CustomerRepository repository;
 
-   /* private LoanFeignClient loanFeignClient;
+    /*private LoanFeignClient loanFeignClient;
 
     public CustomerController(LoanFeignClient loanFeignClient) {
         this.loanFeignClient = loanFeignClient;
@@ -166,9 +166,9 @@ public class CustomerController {
         return WebCustomer.getLoansByCustomerId(customerId);
     }
 
-   /* @GetMapping("/{customerId}/loans")
-    public ResponseEntity<Loan> getLoanById(Long id) {
-        return loanFeignClient.getLoanById(id);
+   /*@GetMapping("/loansFei")
+    public ResponseEntity<Loan> getLoanById() {
+        return loanFeignClient.getAllCustomerLoans();
     }*/
 
 
