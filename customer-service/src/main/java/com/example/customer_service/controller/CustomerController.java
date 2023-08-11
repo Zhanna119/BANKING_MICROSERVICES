@@ -167,9 +167,30 @@ public class CustomerController {
         return WebCustomer.getLoansByCustomerId(customerId);
     }
 
+
     @GetMapping("/{customerId}/loansFeign")
+    @ApiOperation(value = "Finds customer loans with given customer id",
+            notes = "Provide an customer id to find all customer loans",
+            response = Customer.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
     public ResponseEntity<List<Loan>> getLoanById(@PathVariable Long customerId) {
-        return loanFeignClient.getLoanById(customerId);
+        log.info("Searching for all loans of customer {}", customerId);
+        if(!service.isCustomerPresent(customerId)){
+            log.warn("Customer with id {} is not found", customerId);
+            return ResponseEntity.notFound().build();
+        }
+        ResponseEntity<List<Loan>> loans = loanFeignClient.getLoanById(customerId);
+        if (loans == null) {
+            log.warn("Server Error", customerId);
+            return ResponseEntity.badRequest().build();
+        }
+        log.info("Returning all customer with id {}, loans", customerId);
+        return loans;
     }
 }
 

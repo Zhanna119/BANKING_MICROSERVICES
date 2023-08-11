@@ -81,4 +81,9 @@ public class CustomerServiceImpl implements CustomerService {
         log.info("Deleting customer with id {}", id);
         repository.deleteById(id);
     }
+
+    @Override
+    public boolean isCustomerPresent(Long id) {
+        return repository.existsById(id);
+    }
 }
