@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,7 @@ public class CustomerController {
     private LoanFeignClient loanFeignClient;
 
     public CustomerController(LoanFeignClient loanFeignClient) {
+
         this.loanFeignClient = loanFeignClient;
     }
 
@@ -159,11 +161,39 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/accounts")
-    public Flux<Account> getAccountsByCustomerId(@PathVariable String customerId) {
-        return WebCustomer.getAccountsByCustomerId(customerId);
+    @ApiOperation(value = "Searches for all customer accounts with given customer id",
+            notes = "Provide an id to find all customer accounts from database",
+            response = Customer.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    public Mono<ResponseEntity<Flux<Account>>> getAccountsByCustomerId(@PathVariable String customerId) {
+        log.info("Searching for all customer accounts");
+        Long customerIdAsLong = Long.valueOf(customerId);
+        if (!service.isCustomerPresent(customerIdAsLong)) {
+            log.warn("Customer with id {} is not found", customerId);
+            return Mono.just(ResponseEntity.notFound().build());
+        }
+        log.info("Returning list of all customer {} accounts", customerId);
+        return Mono.just(ResponseEntity.ok(WebCustomer.getAccountsByCustomerId(customerId)));
     }
+
+
     @GetMapping("/{customerId}/loans")
+    @ApiOperation(value = "Searches for all customer loans with given customer id",
+            notes = "Provide an id to find all customer loans from database",
+            response = Customer.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
     public Flux<Loan> getLoansByCustomerId(@PathVariable String customerId) {
+        log.info("Searching for all loans of customer {}", customerId);
         return WebCustomer.getLoansByCustomerId(customerId);
     }
 

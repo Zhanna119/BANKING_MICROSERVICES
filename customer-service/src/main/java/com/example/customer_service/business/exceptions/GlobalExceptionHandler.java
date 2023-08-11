@@ -1,21 +1,20 @@
 package com.example.customer_service.business.exceptions;
 
 import feign.FeignException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
@@ -27,8 +26,7 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
-    
-   @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -50,6 +48,17 @@ public class GlobalExceptionHandler {
         return errorResponse;
     }
 
+    @ExceptionHandler(WebClientResponseException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ErrorResponse handleWebClientResponseException(WebClientResponseException ex) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setTimestamp(LocalDateTime.now());
+        errorResponse.setMessage("Error from WebClient: " + ex.getMessage());
+        errorResponse.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        return errorResponse;
+    }
+
     @ExceptionHandler(FeignException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
@@ -64,9 +73,6 @@ public class GlobalExceptionHandler {
             errorResponse.setMessage("Not Found");
             errorResponse.setErrorCode(HttpStatus.NOT_FOUND.value());
         }
-
         return errorResponse;
     }
-
-
 }

@@ -84,6 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public boolean isCustomerPresent(Long id) {
+        log.info("Searches if customer exists in database");
         return repository.existsById(id);
     }
 }
