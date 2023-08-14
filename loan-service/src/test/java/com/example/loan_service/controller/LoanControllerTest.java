@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -219,5 +220,26 @@ return list;
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loan)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testGetAllLoansByCustomerId_Found() throws Exception {
+        Long customerId = 1L;
+        Loan loan1 = new Loan();
+        Loan loan2 = new Loan();
+        List<Loan> loanList = Arrays.asList(loan1, loan2);
+        when(service.getAllLoansByCustomerId(customerId)).thenReturn(loanList);
+        mockMvc.perform(get(URL + "/id/" + customerId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(loanList)));
+    }
+   @Test
+    public void testGetAllLoansByCustomerId_NotFound() throws Exception {
+        Long customerId = 1L;
+        when(service.getAllLoansByCustomerId(customerId)).thenReturn(Collections.emptyList());
+        mockMvc.perform(get(URL + "/id/" + customerId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }

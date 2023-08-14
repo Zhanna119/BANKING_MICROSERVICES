@@ -1,6 +1,5 @@
 package com.example.customer_service.controller;
 
-import com.example.customer_service.business.mappers.CustomerMapper;
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.model.Customer;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -154,4 +154,30 @@ class LoanServiceImplTest {
         service.deleteLoanById(99L);
         verify(repository, times(1)).deleteById(99L);
     }
+
+    @Test
+    void testGetAllLoansByCustomerId() {
+        Long customerId = 1L; // Customer ID to search for
+        LoanDAO loanDAO1 = new LoanDAO();
+        loanDAO1.setCustomerId(customerId);
+        LoanDAO loanDAO2 = new LoanDAO();
+        loanDAO2.setCustomerId(customerId);
+        Loan loan1 = new Loan();
+        Loan loan2 = new Loan();
+        List<LoanDAO> loanDAOList1 = Arrays.asList(loanDAO1, loanDAO2);
+        when(repository.findAll()).thenReturn(loanDAOList1);
+        when(mapper.mapFromDao(loanDAO1)).thenReturn(loan1);
+        when(mapper.mapFromDao(loanDAO2)).thenReturn(loan2);
+        List<Loan> result = service.getAllLoansByCustomerId(customerId);
+        assertEquals(2, result.size());
+        assertEquals(loan1, result.get(0));
+        assertEquals(loan2, result.get(1));
+    }
+
+    @Test
+    public void testGetLoansByCustomerId_NoLoans() {
+        Long customerId = 1L;
+        List<Loan> result = service.getAllLoansByCustomerId(customerId);
+        assertEquals(0, result.size());
+    }
 }

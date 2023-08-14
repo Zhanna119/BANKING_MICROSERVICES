@@ -1,6 +1,7 @@
 package com.example.loan_service.controller;
 
 import com.example.loan_service.business.service.LoanPaymentService;
+import com.example.loan_service.model.Loan;
 import com.example.loan_service.model.LoanPayment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package com.example.loan_service.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,7 +29,9 @@ public class Loan {
 
     @ApiModelProperty(notes = "Loan due date")
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
+
 
     @ApiModelProperty(notes = "Loan debt")
     private BigDecimal loanDebt;
