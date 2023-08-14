@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -197,6 +198,28 @@ class AccountControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(account)))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testGetAllAccountByCustomerId_Found() throws Exception {
+        Long customerId = 1L;
+        /*
+        Account account1 = new Account();
+        Account account2 = new Account();
+        List<Account> accounts = Arrays.asList(account1, account2);*/
+        when(service.getAccountsByCustomerId(customerId)).thenReturn(createMockedListAccount());
+        mockMvc.perform(get(URL + "/id/" + customerId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(createMockedListAccount())));
+    }
+    @Test
+    public void testGetAllAccountByCustomerId_NotFound() throws Exception {
+        Long customerId = 1L;
+        when(service.getAccountsByCustomerId(customerId)).thenReturn(Collections.emptyList());
+        mockMvc.perform(get(URL + "/id/" + customerId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
 

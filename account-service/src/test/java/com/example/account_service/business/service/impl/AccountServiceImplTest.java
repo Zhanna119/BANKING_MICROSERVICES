@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -143,6 +144,32 @@ class AccountServiceImplTest {
         doNothing().when(repository).deleteById(anyLong());
         service.deleteAccountById(99L);
         verify(repository, times(1)).deleteById(99L);
+    }
+
+    @Test
+    public void testGetAccountsByCustomerId_Successful() {
+        Long customerId = 1L; // Customer ID to search for
+        AccountDAO accountDAO1 = new AccountDAO();
+        accountDAO1.setCustomerId(customerId);
+        AccountDAO accountDAO2 = new AccountDAO();
+        accountDAO2.setCustomerId(customerId);
+        Account account1 = new Account();
+        Account account2 = new Account();
+        List<AccountDAO> accountDAOList = Arrays.asList(accountDAO1, accountDAO2);
+        when(repository.findAll()).thenReturn(accountDAOList);
+        when(mapper.mapFromDao(accountDAO1)).thenReturn(account1);
+        when(mapper.mapFromDao(accountDAO2)).thenReturn(account2);
+        List<Account> result = service.getAccountsByCustomerId(customerId);
+        assertEquals(2, result.size());
+        assertEquals(account1, result.get(0));
+        assertEquals(account2, result.get(1));
+    }
+
+    @Test
+    public void testGetAccountsByCustomerId_NoAccounts() {
+        Long customerId = 1L;
+        List<Account> result = service.getAccountsByCustomerId(customerId);
+        assertEquals(0, result.size());
     }
 
     private List<AccountDAO> createAccountDAOList(AccountDAO accountDAO) {
