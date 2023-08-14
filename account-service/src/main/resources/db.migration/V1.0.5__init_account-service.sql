@@ -1,5 +1,8 @@
 use `banking_account-service`;
 
+DROP TABLE IF EXISTS  account;
+DROP TABLE IF EXISTS  account_activity;
+
 CREATE TABLE account(
                         account_id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
                         currency VARCHAR(50) NOT NULL,

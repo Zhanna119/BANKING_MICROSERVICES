@@ -1,5 +1,8 @@
 use `banking_loan-service`;
 
+DROP TABLE IF EXISTS  loans;
+DROP TABLE IF EXISTS  loan_payment;
+
 CREATE TABLE loans(
         loan_id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,
         customer_id BIGINT NOT NULL,
