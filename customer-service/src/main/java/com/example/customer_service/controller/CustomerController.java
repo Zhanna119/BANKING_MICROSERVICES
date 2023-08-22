@@ -1,11 +1,15 @@
 package com.example.customer_service.controller;
 
 import com.example.account_service.model.Account;
+import com.example.creditCard_service.business.service.CreditCardService;
+import com.example.creditCard_service.business.service.impl.CreditCardServiceImpl;
+import com.example.creditCard_service.model.CreditCard;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.config.WebCustomer;
 import com.example.customer_service.feign.LoanFeignClient;
 import com.example.customer_service.model.Customer;
+import com.example.customer_service.mq.MessageFuncActions;
 import com.example.customer_service.swagger.DescriptionVariables;
 import com.example.customer_service.swagger.HTMLResponseMessages;
 import com.example.loan_service.model.Loan;
@@ -34,11 +38,17 @@ public class CustomerController {
     CustomerRepository repository;
 
     private LoanFeignClient loanFeignClient;
+    private final MessageFuncActions messageFuncActions;
 
-    public CustomerController(LoanFeignClient loanFeignClient) {
+    private CreditCardService creditCardService;
+
+    public CustomerController(LoanFeignClient loanFeignClient, MessageFuncActions messageFuncActions, CreditCardServiceImpl creditCardService) {
 
         this.loanFeignClient = loanFeignClient;
+        this.messageFuncActions = messageFuncActions;
+        this.creditCardService = creditCardService;
     }
+
 
     @GetMapping("/all")
     @ApiOperation(value = "Finds all customers list",
@@ -133,6 +143,7 @@ public class CustomerController {
             log.warn("Customer with this id already exists");
             return ResponseEntity.unprocessableEntity().build();
         }
+        messageFuncActions.sendNewUserMessage(customer.getId());
         log.info("Customer entry saved");
         return ResponseEntity.ok(data);
     }
@@ -222,5 +233,31 @@ public class CustomerController {
         log.info("Returning all customer with id {}, loans", customerId);
         return loans;
     }
+
+    /*@GetMapping("/{customerId}/creditCards")
+    @ApiOperation(value = "Finds customer credit cards with given customer id",
+            notes = "Provide a customer id to find all customer credit cards",
+            response = CreditCard.class,
+            responseContainer = "List")
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = HTMLResponseMessages.HTTP_202),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    public ResponseEntity<List<CreditCard>> getCreditCardsByCustomerId(@PathVariable Long customerId) {
+        log.info("Searching for all credit cards of customer {}", customerId);
+
+        if (!service.isCustomerPresent(customerId)) {
+            log.warn("Customer with id {} is not found", customerId);
+            return ResponseEntity.notFound().build();
+        }
+        // Отправляем сообщение внутренней шине
+        //messageNotificationService.sendCreditCardRequestNotification(customerId);
+        List<CreditCard> creditCards = creditCardService.getAllCreditCardsByCustomerId(customerId);
+        log.info("Credit card request for customer with id {} has been sent", customerId);
+        return ResponseEntity.ok(creditCards);
+    }*/
 }
+
 

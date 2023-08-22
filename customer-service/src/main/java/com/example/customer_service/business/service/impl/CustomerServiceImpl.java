@@ -1,6 +1,5 @@
 package com.example.customer_service.business.service.impl;
 
-import com.example.account_service.model.Account;
 import com.example.customer_service.business.mappers.CustomerMapper;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.repository.model.CustomerDAO;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 
 import java.util.List;
 import java.util.Optional;

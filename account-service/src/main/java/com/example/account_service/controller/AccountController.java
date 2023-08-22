@@ -3,8 +3,8 @@ package com.example.account_service.controller;
 import com.example.account_service.business.repository.AccountRepository;
 import com.example.account_service.business.service.AccountService;
 import com.example.account_service.model.Account;
-import com.example.account_service.swagger.DescriptionVariables;
-import com.example.account_service.swagger.HTMLResponseMessages;
+import com.example.account_service.config.DescriptionVariables;
+import com.example.account_service.config.HTMLResponseMessages;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
