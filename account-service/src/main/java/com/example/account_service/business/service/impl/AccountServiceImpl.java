@@ -4,6 +4,7 @@ import com.example.account_service.business.mappers.AccountMapper;
 import com.example.account_service.business.repository.AccountRepository;
 import com.example.account_service.business.repository.model.AccountDAO;
 import com.example.account_service.business.service.AccountService;
+import com.example.account_service.kafka.KafkaProducerService;
 import com.example.account_service.model.Account;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     AccountMapper mapper;
+
+    @Autowired
+    private KafkaProducerService kafkaProducerService;
 
 
     @Override
@@ -67,6 +71,7 @@ public class AccountServiceImpl implements AccountService {
             }
         }
         log.info("Saving new Account entry");
+        kafkaProducerService.sendMessage("New account is saved with ID: " + account.getId());
         return mapper.mapFromDao(repository.save(mapper.mapToDao(account)));
     }
 
@@ -75,6 +80,7 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(Long id) {
         log.info("Deleting account with id {}", id);
         repository.deleteById(id);
+        kafkaProducerService.sendMessage("Account with ID: " + id + " is deleted.");
     }
 
     @Override
