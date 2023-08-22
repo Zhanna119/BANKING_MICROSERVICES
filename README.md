@@ -1,8 +1,9 @@
 # BANKING_MICROSERVICES
-customerService:
+## customerService:
 
-accountService:
 
-creditCardService:
+## accountService:
 
-loanService:
+## creditCardService:
+
+## loanService:
