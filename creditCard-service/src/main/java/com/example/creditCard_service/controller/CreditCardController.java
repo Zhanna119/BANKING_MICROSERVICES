@@ -5,11 +5,8 @@ import com.example.creditCard_service.config.DescriptionVariables;
 import com.example.creditCard_service.config.HTMLResponseMessages;
 import com.example.creditCard_service.business.repository.CreditCardRepository;
 import com.example.creditCard_service.business.service.CreditCardService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +20,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.Optional;
 
 
-@Api(tags = DescriptionVariables.CREDIT_CARD)
+@Tag(name = DescriptionVariables.CREDIT_CARD, description = "Information related to customer credit cards")
 @Slf4j
 @RestController
 @RequestMapping("api/creditCards")
@@ -40,9 +38,8 @@ public class CreditCardController {
     CreditCardRepository repository;
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all credit cards list",
-                  notes = "Returns all credit cards from the database",
-                  response = CreditCard.class)
+    @Operation(summary = "Finds all credit cards list",
+                  description = "Returns all credit cards from the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
@@ -60,9 +57,8 @@ public class CreditCardController {
     }
 
     @GetMapping("getById/{id}")
-    @ApiOperation(value = "Finds credit cards by id",
-                  notes = "Provide an id to search for a specific credit card",
-                  response = CreditCard.class)
+    @Operation(summary = "Finds credit cards by id",
+                  description = "Provide an id to search for a specific credit card")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -84,9 +80,8 @@ public class CreditCardController {
     }
 
     @PutMapping("/edit/{id}")
-    @ApiOperation(value = "Changes credit card data entry with given id",
-            notes = "Provide an id to search for a specific credit card in the database",
-            response = CreditCard.class)
+    @Operation(summary = "Changes credit card data entry with given id",
+            description = "Provide an id to search for a specific credit card in the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -112,9 +107,8 @@ public class CreditCardController {
     }
 
     @PostMapping("/save")
-    @ApiOperation(value = "Saves new credit card in database",
-            notes = "Saves credit card if it's valid",
-            response = CreditCard.class)
+    @Operation(summary = "Saves new credit card in database",
+            description = "Saves credit card if it's valid")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -133,9 +127,8 @@ public class CreditCardController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "Deletes credit card entry with given id",
-            notes = "Provide an id to delete credit card from database",
-            response = CreditCard.class)
+    @Operation(summary = "Deletes credit card entry with given id",
+            description = "Provide an id to delete credit card from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -157,9 +150,8 @@ public class CreditCardController {
 
 
     @GetMapping("customerId/{customerId}")
-    @ApiOperation(value = "Finds all customer credit cards by customer id",
-            notes = "Provide a customer id to search all customer credit cards",
-            response = CreditCard.class)
+    @Operation(summary = "Finds all customer credit cards by customer id",
+            description = "Provide a customer id to search all customer credit cards")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),

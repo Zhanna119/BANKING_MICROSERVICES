@@ -10,6 +10,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +30,9 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Api(tags = DescriptionVariables.LOAN)
 @Slf4j
 @RestController
+@Tag(name = DescriptionVariables.LOAN, description = "Information related to customer loans")
 @RequestMapping("api/loans")
 public class LoanController {
     @Autowired
@@ -40,13 +42,9 @@ public class LoanController {
     LoanRepository repository;
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all loans list",
-                  notes = "Returns all loans from the database",
-                  response = Loan.class)
+    @Operation(summary = "Finds all loans list",
+            description = "Returns all loans from the database")
     @ApiResponses(value = {
-           /* @ApiResponse(code = 200, message = "${HTTP_200}"),
-            @ApiResponse(code = 404, message = "${HTTP_404}"),
-            @ApiResponse(code = 500, message = "${HTTP_500}")*/
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
@@ -63,9 +61,8 @@ public class LoanController {
     }
 
     @GetMapping("getById/{id}")
-    @ApiOperation(value = "Finds loan by id",
-                  notes = "Provide an id to search for a specific loan",
-                  response = Loan.class)
+    @Operation(summary = "Finds loan by id",
+                  description = "Provide an id to search for a specific loan")
     @ApiResponses(value = {
             //@ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -87,9 +84,8 @@ public class LoanController {
     }
 
     @PutMapping("/edit/{id}")
-    @ApiOperation(value = "Changes loan data entry with given id",
-            notes = "Provide an id to search for a specific loan in the database",
-            response = Loan.class)
+    @Operation(summary = "Changes loan data entry with given id",
+            description = "Provide an id to search for a specific loan in the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -115,9 +111,8 @@ public class LoanController {
     }
 
     @PostMapping("/save")
-    @ApiOperation(value = "Saves new loan in database",
-            notes = "Saves loan if it's valid",
-            response = Loan.class)
+    @Operation(summary = "Saves new loan in database",
+            description = "Saves loan if it's valid")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -136,9 +131,8 @@ public class LoanController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "Deletes loan entry with given id",
-            notes = "Provide an id to delete loan from database",
-            response = Loan.class)
+    @Operation(summary = "Deletes loan entry with given id",
+            description = "Provide an id to delete loan from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -159,9 +153,8 @@ public class LoanController {
     }
 
     @GetMapping("id/{customerId}")
-    @ApiOperation(value = "Finds loans by customer id",
-            notes = "Provide a customer id to search all customer loans",
-            response = Loan.class)
+    @Operation(description = "Finds loans by customer id",
+            summary = "Provide a customer id to search all customer loans")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),

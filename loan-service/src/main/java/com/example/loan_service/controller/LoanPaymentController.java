@@ -2,14 +2,13 @@ package com.example.loan_service.controller;
 
 import com.example.loan_service.business.repository.LoanPaymentRepository;
 import com.example.loan_service.business.service.LoanPaymentService;
-import com.example.loan_service.model.Loan;
-import com.example.loan_service.model.LoanPayment;
 import com.example.loan_service.config.DescriptionVariables;
 import com.example.loan_service.config.HTMLResponseMessages;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.example.loan_service.model.LoanPayment;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,7 +22,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-@Api(tags = DescriptionVariables.LOAN_PAYMENT)
+@Tag(name = DescriptionVariables.LOAN_PAYMENT, description = "Information related customer loan payments")
 @Slf4j
 @RestController
 @RequestMapping("api/loanPayments")
@@ -36,15 +35,10 @@ public class LoanPaymentController {
 
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all loan payments list",
-            notes = "Returns all loan payments from the database",
-            response = Loan.class)
+    @Operation(summary = "Finds all loan payments list",
+            description = "Returns all loan payments from the database")
     @ApiResponses(value = {
-           /* @ApiResponse(code = 200, message = "${HTTP_200}"),
-            @ApiResponse(code = 404, message = "${HTTP_404}"),
-            @ApiResponse(code = 500, message = "${HTTP_500}")*/
-            @ApiResponse(code = 200, message = "HTTP_200"),
-            //@ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
@@ -60,9 +54,8 @@ public class LoanPaymentController {
     }
 
     @GetMapping("/date")
-    @ApiOperation(value = "Finds payments by passing in date",
-            notes = "This API endpoint retrieves the payments based on the provided date (date should be in the format 'YYYY-MM-DD')",
-            response = LoanPayment.class)
+    @Operation(summary = "Finds payments by passing in date",
+            description = "This API endpoint retrieves the payments based on the provided date (date should be in the format 'YYYY-MM-DD')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),

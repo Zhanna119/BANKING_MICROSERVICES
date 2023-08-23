@@ -1,4 +1,4 @@
-package com.example.customer_service.swagger;
+package com.example.customer_service.config;
 
 
 public class HTMLResponseMessages {

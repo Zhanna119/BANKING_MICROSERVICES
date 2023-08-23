@@ -63,6 +63,9 @@ public class LoanServiceImpl implements LoanService {
                 log.warn("Loan with the same id already exists");
                 throw new IllegalArgumentException("Loan with the same id already exists");
             }
+            else {
+
+            }
         }
         log.info("Saving new loan entry");
         return mapper.mapFromDao(repository.save(mapper.mapToDao(loan)));

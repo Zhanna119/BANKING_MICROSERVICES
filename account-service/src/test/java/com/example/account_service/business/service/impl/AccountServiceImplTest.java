@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.account_service.business.mappers.AccountMapper;
 import com.example.account_service.business.repository.AccountRepository;
 import com.example.account_service.business.repository.model.AccountDAO;
+import com.example.account_service.kafka.KafkaProducerService;
 import com.example.account_service.model.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
@@ -29,6 +31,8 @@ class AccountServiceImplTest {
 
     @Mock
     private AccountMapper mapper;
+    @Mock
+    private KafkaProducerService kafkaProducerService;
 
     @InjectMocks
     private AccountServiceImpl service;
@@ -44,7 +48,11 @@ class AccountServiceImplTest {
         account = createAccount();
         accountDAOList = createAccountDAOList(accountDAO);
         oldAccountDAOEntry = createOldAccountDAOEntry();
+    }
 
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

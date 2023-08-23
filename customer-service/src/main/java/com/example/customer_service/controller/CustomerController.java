@@ -3,30 +3,38 @@ package com.example.customer_service.controller;
 import com.example.account_service.model.Account;
 import com.example.creditCard_service.business.service.CreditCardService;
 import com.example.creditCard_service.business.service.impl.CreditCardServiceImpl;
-import com.example.creditCard_service.model.CreditCard;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.config.WebCustomer;
 import com.example.customer_service.feign.LoanFeignClient;
 import com.example.customer_service.model.Customer;
 import com.example.customer_service.mq.MessageFuncActions;
-import com.example.customer_service.swagger.DescriptionVariables;
-import com.example.customer_service.swagger.HTMLResponseMessages;
+import com.example.customer_service.config.DescriptionVariables;
+import com.example.customer_service.config.HTMLResponseMessages;
 import com.example.loan_service.model.Loan;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
 
-@Api(tags = DescriptionVariables.CUSTOMER)
+@Tag(name = DescriptionVariables.CUSTOMER, description = "Information related to customer")
 @Slf4j
 @RestController
 @RequestMapping("api/customers")
@@ -51,13 +59,9 @@ public class CustomerController {
 
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all customers list",
-                  notes = "Returns all customers from the database",
-                  response = Customer.class)
+    @Operation(summary = "Finds all customers list",
+                  description = "Returns all customers from the database")
     @ApiResponses(value = {
-            /*@ApiResponse(code = 200, message = "${HTTP_200}"),
-            @ApiResponse(code = 404, message = "${HTTP_404}"),
-            @ApiResponse(code = 500, message = "${HTTP_500}")*/
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
@@ -75,9 +79,8 @@ public class CustomerController {
     }
 
     @GetMapping("getById/{id}")
-    @ApiOperation(value = "Finds customer by id",
-                  notes = "Provide an id to search for a specific customer",
-                  response = Customer.class)
+    @Operation(summary = "Finds customer by id",
+                  description = "Provide an id to search for a specific customer")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -99,9 +102,8 @@ public class CustomerController {
     }
 
     @PutMapping("/edit/{id}")
-    @ApiOperation(value = "Changes customer data entry with given id",
-            notes = "Provide an id to search for a specific customer in the database",
-            response = Customer.class)
+    @Operation(summary = "Changes customer data entry with given id",
+            description = "Provide an id to search for a specific customer in the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -127,9 +129,8 @@ public class CustomerController {
     }
 
     @PostMapping("/save")
-    @ApiOperation(value = "Saves new customer in database",
-            notes = "Saves customer if it's valid",
-            response = Customer.class)
+    @Operation(summary = "Saves new customer in database",
+            description = "Saves customer if it's valid")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -149,9 +150,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "Deletes customer entry with given id",
-            notes = "Provide an id to delete customer from database",
-            response = Customer.class)
+    @Operation(summary = "Deletes customer entry with given id",
+            description = "Provide an id to delete customer from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -172,9 +172,8 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/accounts")
-    @ApiOperation(value = "Searches for all customer accounts with given customer id",
-            notes = "Provide an id to find all customer accounts from database",
-            response = Customer.class)
+    @Operation(summary = "Searches for all customer accounts with given customer id",
+            description = "Provide an id to find all customer accounts from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -194,9 +193,8 @@ public class CustomerController {
 
 
     @GetMapping("/{customerId}/loans")
-    @ApiOperation(value = "Searches for all customer loans with given customer id",
-            notes = "Provide an id to find all customer loans from database",
-            response = Customer.class)
+    @Operation(summary = "Searches for all customer loans with given customer id",
+            description = "Provide an id to find all customer loans from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -210,9 +208,8 @@ public class CustomerController {
 
 
     @GetMapping("/{customerId}/loansFeign")
-    @ApiOperation(value = "Finds customer loans with given customer id",
-            notes = "Provide an customer id to find all customer loans",
-            response = Customer.class)
+    @Operation(summary = "Finds customer loans with given customer id",
+            description = "Provide an customer id to find all customer loans")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),

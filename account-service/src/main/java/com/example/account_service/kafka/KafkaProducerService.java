@@ -1,19 +1,24 @@
 package com.example.account_service.kafka;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 public class KafkaProducerService {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final String topic;
 
-    private static final String TOPIC = "NewLoanTopic";
+    public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate, @Value("${kafka.topic}") String topic) {
+        this.kafkaTemplate = kafkaTemplate;
+        this.topic = topic;
+    }
 
     public void sendMessage(String message) {
-        kafkaTemplate.send(TOPIC, message);
+        kafkaTemplate.send(topic, message);
     }
 }
+
 

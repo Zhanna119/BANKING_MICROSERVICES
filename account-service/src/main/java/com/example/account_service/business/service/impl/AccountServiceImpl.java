@@ -81,6 +81,7 @@ public class AccountServiceImpl implements AccountService {
         log.info("Deleting account with id {}", id);
         repository.deleteById(id);
         kafkaProducerService.sendMessage("Account with ID: " + id + " is deleted.");
+        //kafkaProducerService.sendMessage("Account is deleted.");
     }
 
     @Override

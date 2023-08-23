@@ -1,6 +1,5 @@
-package com.example.loan_service.config;
+package com.example.account_service.config;
 
-import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,14 +11,9 @@ public class OpenApiConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Loan and Loan Payment services")
-                        .description("Loan service used to get, create, edit, save and delete customer loans. " +
-                                "Loan payments service used to get loan payments.")
+                .info(new Info().title("Account and Account Payment services")
+                        .description("Account service used to get, create, edit, save and delete customer accounts. " +
+                                "Transaction service used to get customer transactions.")
                         .version("1.0"));
     }
 }
-
-
-
-
-

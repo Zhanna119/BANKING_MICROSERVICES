@@ -11,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Api(tags = DescriptionVariables.ACCOUNT)
+@Tag(name = DescriptionVariables.ACCOUNT, description = "Information related to customer accounts")
 @Slf4j
 @RestController
 @RequestMapping("api/accounts")
@@ -34,15 +36,10 @@ public class AccountController {
     AccountRepository repository;
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all accounts list",
-                  notes = "Returns all accounts from the database",
-                  response = Account.class)
+    @Operation(summary = "Finds all accounts list",
+                  description = "Returns all accounts from the database")
     @ApiResponses(value = {
-           /* @ApiResponse(code = 200, message = "${HTTP_200}"),
-            @ApiResponse(code = 404, message = "${HTTP_404}"),
-            @ApiResponse(code = 500, message = "${HTTP_500}")*/
-            @ApiResponse(code = 200, message = "HTTP_200"),
-            //@ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
@@ -58,11 +55,10 @@ public class AccountController {
     }
 
     @GetMapping("getById/{id}")
-    @ApiOperation(value = "Finds account by id",
-                  notes = "Provide an id to search for a specific account",
-                  response = Account.class)
+    @Operation(summary = "Finds account by id",
+                  description = "Provide an id to search for a specific account")
     @ApiResponses(value = {
-            //@ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
@@ -82,9 +78,8 @@ public class AccountController {
     }
 
     @PutMapping("/edit/{id}")
-    @ApiOperation(value = "Changes account data entry with given id",
-            notes = "Provide an id to search for a specific account in the database",
-            response = Account.class)
+    @Operation(summary = "Changes account data entry with given id",
+            description = "Provide an id to search for a specific account in the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -110,9 +105,8 @@ public class AccountController {
     }
 
     @PostMapping("/save")
-    @ApiOperation(value = "Saves new account in database",
-            notes = "Saves account if it's valid",
-            response = Account.class)
+    @Operation(summary = "Saves new account in database",
+            description = "Saves account if it's valid")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -131,9 +125,8 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "Deletes account entry with given id",
-            notes = "Provide an id to delete account from database",
-            response = Account.class)
+    @Operation(summary = "Deletes account entry with given id",
+            description = "Provide an id to delete account from database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
@@ -154,9 +147,8 @@ public class AccountController {
     }
 
     @GetMapping("id/{customerId}")
-    @ApiOperation(value = "Finds accounts by customer id",
-            notes = "Provide a customer id to search all customer accounts",
-            response = Account.class)
+    @Operation(summary = "Finds accounts by customer id",
+            description = "Provide a customer id to search all customer accounts")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),

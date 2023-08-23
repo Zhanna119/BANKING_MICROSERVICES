@@ -9,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -22,7 +24,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-@Api(tags = DescriptionVariables.ACCOUNT_ACTIVITY)
+@Tag(name = DescriptionVariables.ACCOUNT_ACTIVITY)
 @Slf4j
 @RestController
 @RequestMapping("api/accountActivity")
@@ -34,9 +36,8 @@ public class AccountActivityController {
     AccountActivityRepository repository;
 
     @GetMapping("/all")
-    @ApiOperation(value = "Finds all transactions list",
-            notes = "Returns all transactions from the database",
-            response = AccountActivity.class)
+    @Operation(summary = "Finds all transactions list",
+            description = "Returns all transactions from the database")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
@@ -54,9 +55,8 @@ public class AccountActivityController {
     }
 
     @GetMapping("/date")
-    @ApiOperation(value = "Finds transactions by passing in date",
-            notes = "This API endpoint retrieves the transactions based on the provided date (date should be in the format 'YYYY-MM-DD')",
-            response = AccountActivity.class)
+    @Operation(summary = "Finds transactions by passing in date",
+            description = "This API endpoint retrieves the transactions based on the provided date (date should be in the format 'YYYY-MM-DD')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
             @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
