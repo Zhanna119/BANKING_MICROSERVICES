@@ -140,6 +140,25 @@ class AccountServiceImplTest {
         verify(mapper, never()).mapToDao(any());
     }
 
+    @Test
+    void testSaveAccountWithDifferentId() {
+        Account differentIdAccount = new Account();
+        differentIdAccount.setId(12345L);
+
+        when(repository.findAll()).thenReturn(Collections.singletonList(accountDAO));
+        when(mapper.mapToDao(differentIdAccount)).thenReturn(accountDAO); // This mock ensures we're using the new loan with a different ID
+        when(repository.save(accountDAO)).thenReturn(accountDAO);
+        when(mapper.mapFromDao(accountDAO)).thenReturn(differentIdAccount);
+
+        Account savedAccount = service.saveAccount(differentIdAccount);
+
+        assertEquals(differentIdAccount, savedAccount);
+        verify(mapper, times(1)).mapToDao(differentIdAccount);
+        verify(repository, times(1)).save(accountDAO);
+        verify(mapper, times(1)).mapFromDao(accountDAO);
+    }
+
+
 
     @Test
     public void testDeleteAccountById_Successful() {

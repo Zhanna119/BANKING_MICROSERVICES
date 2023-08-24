@@ -37,6 +37,7 @@ public class AccountServiceImpl implements AccountService {
                 .map(mapper::mapFromDao)
                 .collect(Collectors.toList());
         log.info("Returning list with size: {}", listOfDao.size());
+        kafkaProducerService.sendMessage("All accounts retrieved. Total count: " + listOfDao.size());
         return listOfDao;
     }
 

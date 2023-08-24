@@ -153,6 +153,22 @@ class CreditCardServiceImplTest {
     }
 
     @Test
+    void testSaveCreditCardWithDifferentId() {
+        CreditCard differentIdCreditCard = new CreditCard();
+        differentIdCreditCard.setId(12345L);
+        when(repository.findAll()).thenReturn(Collections.singletonList(creditCardDAO));
+        when(mapper.mapToDao(differentIdCreditCard)).thenReturn(creditCardDAO); // This mock ensures we're using the new loan with a different ID
+        when(repository.save(creditCardDAO)).thenReturn(creditCardDAO);
+        when(mapper.mapFromDao(creditCardDAO)).thenReturn(differentIdCreditCard);
+        CreditCard savedCreditCard = service.saveCreditCard(differentIdCreditCard);
+        assertEquals(differentIdCreditCard, savedCreditCard);
+        verify(mapper, times(1)).mapToDao(differentIdCreditCard);
+        verify(repository, times(1)).save(creditCardDAO);
+        verify(mapper, times(1)).mapFromDao(creditCardDAO);
+    }
+
+
+    @Test
     void testDeleteCreditCardById_Successful() {
         service.deleteCreditCardById(1L);
         verify(repository, times(1)).deleteById(1L);

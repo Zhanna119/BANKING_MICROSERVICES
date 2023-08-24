@@ -17,14 +17,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    @Autowired
-    CustomerRepository repository;
-    @Autowired
-    CustomerMapper mapper;
 
+    private final CustomerRepository repository;
+    private final CustomerMapper mapper;
     private final WebClient webClient;
 
-    public CustomerServiceImpl(WebClient.Builder webClientBuilder) {
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository repository,
+                               CustomerMapper mapper,
+                               WebClient.Builder webClientBuilder) {
+        this.repository = repository;
+        this.mapper = mapper;
         this.webClient = webClientBuilder.baseUrl("http://localhost:9632/api/accounts").build();
     }
 

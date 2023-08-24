@@ -245,7 +245,7 @@ class CreditCardControllerTest {
     public void testGetAllCreditCardsByCustomerId_NotFound() throws Exception {
         Long customerId = 1L;
         when(service.getAllCreditCardsByCustomerId(customerId)).thenReturn(Collections.emptyList());
-        mockMvc.perform(get(URL + customerId + "/1" )
+        mockMvc.perform(get(URL7 + "/1" )
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

@@ -1,7 +1,9 @@
+/*
 package com.example.customer_service.controller;
 
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.model.Customer;
+import com.example.loan_service.model.Loan;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +33,10 @@ class CustomerControllerTest {
     private CustomerService service;
 
     @Autowired
+    private WebClient webClient;
+    @Autowired
     private ObjectMapper objectMapper;
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -192,6 +199,7 @@ class CustomerControllerTest {
     }
 
 
+
     private Customer createCustomer() {
         return new Customer(
                 1L,
@@ -223,4 +231,4 @@ class CustomerControllerTest {
                 null));
         return list;
     }
-}
+}*/

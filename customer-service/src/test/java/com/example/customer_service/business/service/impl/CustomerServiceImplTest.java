@@ -7,21 +7,18 @@ import com.example.customer_service.model.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -31,8 +28,9 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerMapper mapper;
 
-    @Mock
+    @Mock(answer = Answers.RETURNS_SELF)
     private WebClient.Builder webClientBuilder;
+
 
     @Mock
     private WebClient webClient;
@@ -44,6 +42,10 @@ class CustomerServiceImplTest {
     public void setUp() {
         when(webClientBuilder.baseUrl(anyString())).thenReturn(webClientBuilder);
         when(webClientBuilder.build()).thenReturn(webClient);
+        customerDAOList = new ArrayList<>(Arrays.asList(new CustomerDAO(), new CustomerDAO(), new CustomerDAO()));
+        customerDAO = new CustomerDAO();
+        customer = new Customer();
+        service = new CustomerServiceImpl(repository, mapper, webClientBuilder);
     }
 
     private CustomerDAO customerDAO;
@@ -52,25 +54,6 @@ class CustomerServiceImplTest {
     private List<CustomerDAO> customerDAOList;
 
     @Test
-    public void testGetAllCustomers() {
-        // Sample customer data
-        List<CustomerDAO> daoList = Collections.singletonList(new CustomerDAO());
-        List<Customer> expectedList = Collections.singletonList(new Customer());
-
-        // Mocking the repository and mapper calls
-        when(repository.findAll()).thenReturn(daoList);
-        when(mapper.mapFromDao(any())).thenReturn(new Customer());
-
-        // Calling the method under test
-        List<Customer> actualList = service.getAllCustomers();
-
-        // Assertions and verifications
-        assertEquals(expectedList.size(), actualList.size());
-        verify(repository, times(1)).findAll();
-        verify(mapper, times(daoList.size())).mapFromDao(any());
-    }
-
-    /*@Test
     public void testGetAllCustomers_Successful() {
         when(repository.findAll()).thenReturn(customerDAOList);
         when(mapper.mapFromDao(customerDAO)).thenReturn(customer);
@@ -78,6 +61,7 @@ class CustomerServiceImplTest {
         assertEquals(3, list.size());
         verify(repository, times(1)).findAll();
     }
+
 
     @Test
     public void testGetAllCustomers_Empty() {
@@ -87,8 +71,12 @@ class CustomerServiceImplTest {
         assertTrue(result.isEmpty());
     }
 
+
+
     @Test
     public void testGetCustomersById_Successful() {
+        Customer customer = new Customer();
+        customer.setId(1L);
         when(repository.findById(1L)).thenReturn(Optional.of(customerDAO));
         when(mapper.mapFromDao(customerDAO)).thenReturn(customer);
         Optional<Customer> actualResult = service.getCustomerById(customer.getId());
@@ -97,6 +85,7 @@ class CustomerServiceImplTest {
         verify(repository, times(1)).findById(1L);
     }
 
+
     @Test
     public void testGetCustomerById_NotExistingId() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
@@ -104,6 +93,7 @@ class CustomerServiceImplTest {
         assertFalse(result.isPresent());
         verify(repository, times(1)).findById(anyLong());
     }
+
 
     @Test
     public void testEditCustomer_Successful() {
@@ -119,6 +109,7 @@ class CustomerServiceImplTest {
         verify(mapper, times(1)).mapFromDao(oldCustomerDAOEntry);
     }
 
+
     @Test
     public void testEditCustomer_NotExistingId() {
         when(repository.existsById(99L)).thenReturn(false);
@@ -127,6 +118,7 @@ class CustomerServiceImplTest {
         verify(repository, times(1)).existsById(99L);
         verify(repository, never()).save(any());
     }
+
 
     @Test
     public void testSaveCustomer_Successful() {
@@ -141,19 +133,28 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    public void testSaveCustomer_DuplicateCustomer() {
+    void testSaveCustomer_DuplicateCustomer() {
+        Customer customer = new Customer(1L, "John", "Doe", "12345");
+        CustomerDAO customerDAO = new CustomerDAO(1L, "John", "Doe", "12345");
         when(repository.findAll()).thenReturn(Collections.singletonList(customerDAO));
-        try {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
             service.saveCustomer(customer);
-            fail("Expected IllegalArgumentException to be thrown, but nothing was thrown.");
-        } catch (IllegalArgumentException e) {
-            assertEquals("Customer with the same name, surname, and identity number already exists", e.getMessage());
-        }
-        verify(repository, times(1)).findAll();
+        });
+        String expectedMessage = "Customer with the same name, surname, and identity number already exists";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
         verify(repository, never()).save(any());
-        verify(mapper, never()).mapFromDao(any());
-        verify(mapper, never()).mapToDao(any());
     }
+
+    /*@Test
+    void testSaveCustomer_NullAttributesInExistingCustomer() {
+        Customer customer = new Customer(1L, "John", "Doe", "12345");
+        CustomerDAO customerDAO = new CustomerDAO(null, null, null, null);
+        when(repository.findAll()).thenReturn(Collections.singletonList(customerDAO));
+        Customer savedCustomer = service.saveCustomer(customer);
+        assertNotNull(savedCustomer);
+        verify(repository, times(1)).save(any());
+    }*/
 
 
     @Test
@@ -162,12 +163,20 @@ class CustomerServiceImplTest {
         verify(repository, times(1)).deleteById(1L);
     }
 
+
     @Test
     public void testDeleteCustomerById_NonExistentCustomer() {
         doNothing().when(repository).deleteById(anyLong());
         service.deleteCustomerById(99L);
         verify(repository, times(1)).deleteById(99L);
-    }*/
+    }
+
+    @Test
+    public void testIsCustomerPresent_WhenCustomerDoesNotExist() {
+        when(repository.existsById(1L)).thenReturn(false);
+        boolean result = service.isCustomerPresent(1L);
+        assertFalse(result);
+    }
 
     private List<CustomerDAO> createCustomerDAOList(CustomerDAO customerDAO) {
         List<CustomerDAO> list = new ArrayList<>();

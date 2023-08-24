@@ -14,6 +14,7 @@ public class AnalyticsConsumer {
 
     private final AtomicInteger createdAccounts = new AtomicInteger(0);
     private final AtomicInteger deletedAccounts = new AtomicInteger(0);
+    private final AtomicInteger allAccounts = new AtomicInteger(0);
 
     @KafkaListener(topics = "NewLoanTopic", groupId = "analytics_group")
     public void consume(String message){
@@ -26,11 +27,14 @@ public class AnalyticsConsumer {
             deletedAccounts.incrementAndGet();
         } else if (message.contains("New account is saved")) {
             createdAccounts.incrementAndGet();
+        } else if (message.contains("All accounts retrieved. Total count:")) {
+            allAccounts.incrementAndGet();
         }
     }
 
     private void printStats() {
         LOGGER.info("Created accounts: " + createdAccounts.get());
         LOGGER.info("Deleted accounts: " + deletedAccounts.get());
+        LOGGER.info("Get all accounts: " + allAccounts.get() + " times");
     }
 }

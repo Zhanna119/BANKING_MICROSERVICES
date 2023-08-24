@@ -143,6 +143,21 @@ class LoanServiceImplTest {
     }
 
     @Test
+    void testSaveLoanWithDifferentId() {
+        Loan differentIdLoan = new Loan();
+        differentIdLoan.setId(12345L);
+        when(repository.findAll()).thenReturn(Collections.singletonList(loanDAO));
+        when(mapper.mapToDao(differentIdLoan)).thenReturn(loanDAO);
+        when(repository.save(loanDAO)).thenReturn(loanDAO);
+        when(mapper.mapFromDao(loanDAO)).thenReturn(differentIdLoan);
+        Loan savedLoan = service.saveLoan(differentIdLoan);
+        assertEquals(differentIdLoan, savedLoan);
+        verify(mapper, times(1)).mapToDao(differentIdLoan);
+        verify(repository, times(1)).save(loanDAO);
+        verify(mapper, times(1)).mapFromDao(loanDAO);
+    }
+
+    @Test
     void testDeleteLoanById_Successful() {
         service.deleteLoanById(1L);
         verify(repository, times(1)).deleteById(1L);
