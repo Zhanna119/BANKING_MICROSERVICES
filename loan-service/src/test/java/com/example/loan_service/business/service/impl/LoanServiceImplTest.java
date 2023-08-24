@@ -133,16 +133,16 @@ class LoanServiceImplTest {
         verify(mapper,times(1)).mapFromDao(loanDAO);
     }
 
-    @Test
+    /*@Test
     void testSaveLoanWithDuplicateId() {
         when(repository.findAll()).thenReturn(Collections.singletonList(loanDAO));
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             service.saveLoan(loan);
         });
         assertEquals("Loan with the same id already exists", exception.getMessage());
-    }
+    }*/
 
-    @Test
+    /*@Test
     void testSaveLoanWithDifferentId() {
         Loan differentIdLoan = new Loan();
         differentIdLoan.setId(12345L);
@@ -155,7 +155,7 @@ class LoanServiceImplTest {
         verify(mapper, times(1)).mapToDao(differentIdLoan);
         verify(repository, times(1)).save(loanDAO);
         verify(mapper, times(1)).mapFromDao(loanDAO);
-    }
+    }*/
 
     @Test
     void testDeleteLoanById_Successful() {

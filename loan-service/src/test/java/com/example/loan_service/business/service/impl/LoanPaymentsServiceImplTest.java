@@ -52,7 +52,7 @@ class LoanPaymentsServiceImplTest {
     @Test
     void testGetAllLoanPayments_Successful() {
         when(repository.findAll()).thenReturn(loanPaymentDAOList);
-        when(mapper.mapFromDao(loanPaymentDAO)).thenReturn(loanPayment);
+        when(mapper.mapFromDAO(loanPaymentDAO)).thenReturn(loanPayment);
         List<LoanPayment> result = service.getAllLoanPayments();
         assertEquals(3, result.size());
         assertEquals(loanPayment.getId(), result.get(0).getId());
@@ -70,12 +70,12 @@ class LoanPaymentsServiceImplTest {
     @Test
     void testGetLoansByDate_Successful() {
         when(repository.findAll()).thenReturn(loanPaymentDAOList);
-        when(mapper.mapFromDao(loanPaymentDAO)).thenReturn(loanPayment);
+        when(mapper.mapFromDAO(loanPaymentDAO)).thenReturn(loanPayment);
         LocalDate date = LocalDate.of(2020, 01, 01);
         List<LoanPayment> result = service.getLoansByDate(date);
         assertEquals(3, result.size());
         verify(repository, times(1)).findAll();
-        verify(mapper, times(3)).mapFromDao(loanPaymentDAO);
+        verify(mapper, times(3)).mapFromDAO(loanPaymentDAO);
     }
 
     @Test

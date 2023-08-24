@@ -28,7 +28,7 @@ public class LoanPaymentsServiceImpl implements LoanPaymentService {
         log.info("Looking for all loans payments, returning list");
         List<LoanPayment> listOfDao = repository.findAll()
                 .stream()
-                .map(mapper::mapFromDao)
+                .map(mapper::mapFromDAO)
                 .collect(Collectors.toList());
         log.info("Returning list with size: {}", listOfDao.size());
         return listOfDao;
@@ -40,7 +40,7 @@ public class LoanPaymentsServiceImpl implements LoanPaymentService {
         List<LoanPaymentDAO> listOfDao = repository.findAll();
         List<LoanPayment> resultList = new ArrayList<>();
         for (LoanPaymentDAO dao : listOfDao) {
-            LoanPayment loanPayment = mapper.mapFromDao(dao);
+            LoanPayment loanPayment = mapper.mapFromDAO(dao);
             if(dao.getLoanPaymentDate().equals(date)) {
                 resultList.add(loanPayment);
             }

@@ -97,7 +97,7 @@ public class LoanController {
             @ApiParam(value = "Id of the loan", required = true)
             @NonNull @PathVariable("id") Long id,
             @Valid @RequestBody Loan loan) {
-        if(!loan.getId().equals(id)) {
+       if(!loan.getId().equals(id)) {
             log.warn("Given id {} does not match the request body or does not exists", id);
             return ResponseEntity.badRequest().build();
         }
@@ -122,10 +122,6 @@ public class LoanController {
     })
     ResponseEntity<Loan> saveLoan(@Valid @RequestBody Loan loan) {
         Loan data = service.saveLoan(loan);
-        if(service.getLoanById(loan.getId()).isPresent()) {
-            log.warn("Loan with this id already exists");
-            return ResponseEntity.unprocessableEntity().build();
-        }
         log.info("Loan entry saved");
         return ResponseEntity.ok(data);
     }

@@ -22,7 +22,7 @@ public interface LoanMapper {
 
     default LoanPaymentDAO mapToLoanPaymentDAO(Long id) {
         LoanPaymentDAO loanPaymentDAO = new LoanPaymentDAO();
-        loanPaymentDAO.setId(id);
+        //loanPaymentDAO.setId(id);
         return loanPaymentDAO;
     }
 }

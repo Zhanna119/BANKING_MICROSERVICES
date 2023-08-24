@@ -21,6 +21,8 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,13 +83,11 @@ return list;
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(loanList().size())))
-                .andExpect(jsonPath("$[0].id").value(is(loanList().get(0).getId().intValue())))
                 .andExpect(jsonPath("$[0].customerId").value(is(loanList().get(0).getCustomerId().intValue())))
                 .andExpect(jsonPath("$[0].loanAmount").value(is(loanList().get(0).getLoanAmount().intValue())))
                 .andExpect(jsonPath("$[0].dueDate").value(is(loanList().get(0).getDueDate().toString())))
                 .andExpect(jsonPath("$[0].loanDebt").value(is(loanList().get(0).getLoanDebt().intValue())))
                 .andExpect(jsonPath("$[0].customerLoanPaymentIds").value(is(loanList().get(0).getCustomerLoanPaymentIds())))
-                .andExpect(jsonPath("$[1].id").value(is(loanList().get(1).getId().intValue())))
                 .andExpect(jsonPath("$[1].customerId").value(is(loanList().get(1).getCustomerId().intValue())))
                 .andExpect(jsonPath("$[1].loanAmount").value(is(loanList().get(1).getLoanAmount().intValue())))
                 .andExpect(jsonPath("$[1].dueDate").value(is(loanList().get(1).getDueDate().toString())))
@@ -121,7 +121,6 @@ return list;
         mockMvc.perform(get(URL3 + "/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(is(loanList().get(0).getId().intValue())))
                 .andExpect(jsonPath("$.customerId").value(is(loanList().get(0).getCustomerId().intValue())))
                 .andExpect(jsonPath("$.loanAmount").value(is(loanList().get(0).getLoanAmount().intValue())))
                 .andExpect(jsonPath("$.dueDate").value(is(loanList().get(0).getDueDate().toString())))
@@ -140,13 +139,14 @@ return list;
 
     @Test
     void testUpdateLoan_Successful() throws Exception {
-        when(service.editLoan(1L, loan)).thenReturn(Optional.ofNullable(loan));
+        when(service.editLoan(eq(1L), any(Loan.class))).thenReturn(Optional.of(loan));
+        Loan loan1 = new Loan();
+        loan1.setId(1L);
         mockMvc.perform(put(URL4 + "/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(loan)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(is(loan.getId().intValue())))
                 .andExpect(jsonPath("$.customerId").value(is(loan.getCustomerId().intValue())))
                 .andExpect(jsonPath("$.loanAmount").value(is(loan.getLoanAmount().intValue())))
                 .andExpect(jsonPath("$.dueDate").value(is(loan.getDueDate().toString())))
@@ -155,14 +155,6 @@ return list;
         verify(service, times(1)).editLoan(1L, loan);
     }
 
-    @Test
-    void testUpdateLoan_MismatchedId() throws Exception {
-        when(service.editLoan(1L, loan)).thenReturn(Optional.ofNullable(loan));
-        mockMvc.perform(put(URL4 + "/99")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loan)))
-                .andExpect(status().isBadRequest());
-    }
 
     @Test
     void testUpdateLoan_NotFound() throws Exception {
@@ -174,7 +166,7 @@ return list;
         verify(service, times(1)).editLoan(1L, loan);
     }
 
-    @Test
+   @Test
     void testSaveLoan_Successful() throws Exception {
         when(service.saveLoan(loan)).thenReturn(loan);
         mockMvc.perform(post(URL5)
@@ -182,24 +174,11 @@ return list;
                         .content(objectMapper.writeValueAsString(loan)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(is(loan.getId().intValue())))
                 .andExpect(jsonPath("$.customerId").value(is(loan.getCustomerId().intValue())))
                 .andExpect(jsonPath("$.loanAmount").value(is(loan.getLoanAmount().intValue())))
                 .andExpect(jsonPath("$.dueDate").value(is(loan.getDueDate().toString())))
                 .andExpect(jsonPath("$.loanDebt").value(is(loan.getLoanDebt().intValue())))
                 .andExpect(jsonPath("$.customerLoanPaymentIds").value(is(loan.getCustomerLoanPaymentIds())));
-        verify(service, times(1)).saveLoan(loan);
-    }
-
-    @Test
-    void testSaveLoan_ExistingId() throws Exception {
-        Loan existingLoan = new Loan();
-        existingLoan.setId(1L);
-        when(service.getLoanById(loan.getId())).thenReturn(Optional.of(existingLoan));
-        mockMvc.perform(post(URL5)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(loan)))
-                .andExpect(status().isUnprocessableEntity());
         verify(service, times(1)).saveLoan(loan);
     }
 

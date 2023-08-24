@@ -55,7 +55,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
 
-    @Override
+    /*@Override
     public Loan saveLoan(Loan loan) {
         List<LoanDAO> existingLoans = repository.findAll();
         for (LoanDAO existingLoan : existingLoans) {
@@ -67,6 +67,12 @@ public class LoanServiceImpl implements LoanService {
 
             }
         }
+        log.info("Saving new loan entry");
+        return mapper.mapFromDao(repository.save(mapper.mapToDao(loan)));
+    }*/
+
+    @Override
+    public Loan saveLoan(Loan loan) {
         log.info("Saving new loan entry");
         return mapper.mapFromDao(repository.save(mapper.mapToDao(loan)));
     }

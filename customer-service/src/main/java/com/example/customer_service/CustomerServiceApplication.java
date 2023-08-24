@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableFeignClients
 @EnableDiscoveryClient
 @ComponentScan(basePackages = {"com.example.customer_service", "com.example.creditCard_service"})
+        //"com.example.account_service", "com.example.loan_service"})
 public class CustomerServiceApplication {
 
     public static void main(String[] args) {
