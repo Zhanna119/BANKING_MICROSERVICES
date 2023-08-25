@@ -116,10 +116,10 @@ public class AccountController {
     })
     ResponseEntity<Account> saveAccount(@Valid @RequestBody Account account) {
         Account data = service.saveAccount(account);
-        if(service.getAccountById(account.getId()).isPresent()) {
+        /*if(service.getAccountById(account.getId()).isPresent()) {
             log.warn("Account with this id already exists");
             return ResponseEntity.unprocessableEntity().build();
-        }
+        }*/
         log.info("Account entry saved");
         return ResponseEntity.ok(data);
     }

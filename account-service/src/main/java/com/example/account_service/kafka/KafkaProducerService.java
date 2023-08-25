@@ -11,6 +11,7 @@ public class KafkaProducerService {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final String topic;
 
+
     public KafkaProducerService(KafkaTemplate<String, String> kafkaTemplate, @Value("${kafka.topic}") String topic) {
         this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;

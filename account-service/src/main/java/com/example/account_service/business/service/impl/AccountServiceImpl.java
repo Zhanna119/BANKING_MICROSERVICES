@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    @Override
+   /* @Override
     public Account saveAccount(Account account) {
         List<AccountDAO> existingAccounts = repository.findAll();
         for (AccountDAO existingAccount : existingAccounts) {
@@ -74,6 +74,13 @@ public class AccountServiceImpl implements AccountService {
         log.info("Saving new Account entry");
         kafkaProducerService.sendMessage("New account is saved with ID: " + account.getId());
         return mapper.mapFromDao(repository.save(mapper.mapToDao(account)));
+    }*/
+
+    @Override
+    public Account saveAccount(Account account) {
+        log.info("Saving new account entry");
+        kafkaProducerService.sendMessage("New account is saved.");
+        return mapper.mapFromDao(repository.save(mapper.mapToDao(account)));
     }
 
     @Override
@@ -81,8 +88,8 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccountById(Long id) {
         log.info("Deleting account with id {}", id);
         repository.deleteById(id);
-        kafkaProducerService.sendMessage("Account with ID: " + id + " is deleted.");
-        //kafkaProducerService.sendMessage("Account is deleted.");
+        //kafkaProducerService.sendMessage("Account with ID: " + id + " is deleted.");
+        kafkaProducerService.sendMessage("Account is deleted.");
     }
 
     @Override

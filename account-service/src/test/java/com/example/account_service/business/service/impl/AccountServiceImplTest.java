@@ -125,7 +125,7 @@ class AccountServiceImplTest {
         verify(mapper, times(1)).mapFromDao(accountDAO);
     }
 
-    @Test
+    /*@Test
     public void testSaveAccount_DuplicateCustomer() {
         when(repository.findAll()).thenReturn(Collections.singletonList(accountDAO));
         try {
@@ -138,9 +138,9 @@ class AccountServiceImplTest {
         verify(repository, never()).save(any());
         verify(mapper, never()).mapFromDao(any());
         verify(mapper, never()).mapToDao(any());
-    }
+    }*/
 
-    @Test
+   /*@Test
     void testSaveAccountWithDifferentId() {
         Account differentIdAccount = new Account();
         differentIdAccount.setId(12345L);
@@ -156,7 +156,7 @@ class AccountServiceImplTest {
         verify(mapper, times(1)).mapToDao(differentIdAccount);
         verify(repository, times(1)).save(accountDAO);
         verify(mapper, times(1)).mapFromDao(accountDAO);
-    }
+    }*/
 
 
 
