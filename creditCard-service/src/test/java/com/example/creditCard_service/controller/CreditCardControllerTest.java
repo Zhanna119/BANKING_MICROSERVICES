@@ -159,14 +159,14 @@ class CreditCardControllerTest {
     }
 
 
-    @Test
+    /*@Test
     void testUpdateCreditCard_MismatchedId() throws Exception {
         when(service.editCreditCard(1L, creditCard)).thenReturn(Optional.ofNullable(creditCard));
         mockMvc.perform(put(URL4 + "/99")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(creditCard)))
                 .andExpect(status().isBadRequest());
-    }
+    }*/
 
 
     @Test

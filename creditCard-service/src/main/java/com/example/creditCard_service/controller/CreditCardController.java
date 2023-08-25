@@ -79,6 +79,33 @@ public class CreditCardController {
         }
     }
 
+    /*@PutMapping("/edit/{id}")
+    @Operation(summary = "Changes credit card data entry with given id",
+            description = "Provide an id to search for a specific credit card in the database")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = HTMLResponseMessages.HTTP_200),
+            @ApiResponse(code = 400, message = HTMLResponseMessages.HTTP_400),
+            @ApiResponse(code = 404, message = HTMLResponseMessages.HTTP_404),
+            @ApiResponse(code = 422, message = HTMLResponseMessages.HTTP_422),
+            @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
+    })
+    ResponseEntity<CreditCard> updateCreditCard(
+            @ApiParam(value = "Id of the credit card", required = true)
+            @NonNull @PathVariable("id") Long id,
+            @Valid @RequestBody CreditCard creditCard) {
+       *//* if(!creditCard.getId().equals(id)) {
+            log.warn("Given id {} does not match the request body or does not exists", id);
+            return ResponseEntity.badRequest().build();
+        }*//*
+        Optional<CreditCard> creditCardOptional = service.editCreditCard(id, creditCard);
+        if(!creditCardOptional.isPresent()) {
+            log.warn("Credit card with given id {} is not found", id);
+            return ResponseEntity.notFound().build();
+        }
+        log.info("Credit card with id {} updated", id);
+        return ResponseEntity.ok(creditCardOptional.get());
+    }*/
+
     @PutMapping("/edit/{id}")
     @Operation(summary = "Changes credit card data entry with given id",
             description = "Provide an id to search for a specific credit card in the database")
@@ -93,10 +120,7 @@ public class CreditCardController {
             @ApiParam(value = "Id of the credit card", required = true)
             @NonNull @PathVariable("id") Long id,
             @Valid @RequestBody CreditCard creditCard) {
-        if(!creditCard.getId().equals(id)) {
-            log.warn("Given id {} does not match the request body or does not exists", id);
-            return ResponseEntity.badRequest().build();
-        }
+        creditCard.setId(id);
         Optional<CreditCard> creditCardOptional = service.editCreditCard(id, creditCard);
         if(!creditCardOptional.isPresent()) {
             log.warn("Credit card with given id {} is not found", id);
@@ -105,6 +129,7 @@ public class CreditCardController {
         log.info("Credit card with id {} updated", id);
         return ResponseEntity.ok(creditCardOptional.get());
     }
+
 
     @PostMapping("/save")
     @Operation(summary = "Saves new credit card in database",
