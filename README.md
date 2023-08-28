@@ -54,3 +54,11 @@ to start kafka
 
 to read account service topics:
 .\bin\windows\kafka-console-consumer.bat --topic AccountTopic --from-beginning --bootstrap-server localhost:9092
+
+### Rabbit MQ:
+localhost:15672
+Username: guest
+Password: guest
+
+### Eureka:
+http://localhost:8761/
