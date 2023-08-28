@@ -59,3 +59,6 @@ to read account service topics:
 localhost:15672
 Username: guest
 Password: guest
+
+### Eureka:
+http://localhost:8761/
