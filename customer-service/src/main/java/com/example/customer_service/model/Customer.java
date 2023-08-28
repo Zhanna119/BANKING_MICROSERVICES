@@ -36,19 +36,12 @@ public class Customer {
     @NotEmpty
     private String identityNumber;
 
-    @ApiModelProperty(notes = "Customer accounts")
+   /* @ApiModelProperty(notes = "Customer accounts")
     private List<Long> customerAccountIds;
 
     @ApiModelProperty(notes = "Customer loans")
     private List<Long> customerLoansIds;
 
     @ApiModelProperty(notes = "Customer credit cards")
-    private List<Long> customerCreditCardIds;
-
-    public Customer(Long id, String name, String surname, String identityNumber) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.identityNumber = identityNumber;
-    }
+    private List<Long> customerCreditCardIds;*/
 }

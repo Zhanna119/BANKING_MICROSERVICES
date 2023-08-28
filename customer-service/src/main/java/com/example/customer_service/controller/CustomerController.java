@@ -3,6 +3,7 @@ package com.example.customer_service.controller;
 import com.example.account_service.model.Account;
 import com.example.creditCard_service.business.service.CreditCardService;
 import com.example.creditCard_service.business.service.impl.CreditCardServiceImpl;
+import com.example.creditCard_service.model.CreditCard;
 import com.example.customer_service.business.repository.CustomerRepository;
 import com.example.customer_service.business.service.CustomerService;
 import com.example.customer_service.config.WebCustomer;
@@ -231,7 +232,7 @@ public class CustomerController {
         return loans;
     }
 
-    /*@GetMapping("/{customerId}/creditCards")
+    @GetMapping("/{customerId}/creditCards")
     @ApiOperation(value = "Finds customer credit cards with given customer id",
             notes = "Provide a customer id to find all customer credit cards",
             response = CreditCard.class,
@@ -254,7 +255,7 @@ public class CustomerController {
         List<CreditCard> creditCards = creditCardService.getAllCreditCardsByCustomerId(customerId);
         log.info("Credit card request for customer with id {} has been sent", customerId);
         return ResponseEntity.ok(creditCards);
-    }*/
+    }
 }
 
 

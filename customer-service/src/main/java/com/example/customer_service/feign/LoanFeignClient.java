@@ -23,3 +23,5 @@ class LoanFeignClientFallback implements LoanFeignClient {
         return null;
     }
 }
+
+
