@@ -13,4 +13,5 @@ public interface AccountService {
     Account saveAccount(Account account);
     void deleteAccountById(Long id);
     List<Account> getAccountsByCustomerId(Long customerId);
+    public void initAccount(Long customerId);
 }

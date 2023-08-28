@@ -2,7 +2,6 @@ package com.example.loan_service.business.service.impl;
 
 import com.example.loan_service.business.mappers.LoanMapper;
 import com.example.loan_service.business.repository.LoanRepository;
-import com.example.loan_service.business.repository.model.LoanDAO;
 import com.example.loan_service.business.service.LoanService;
 import com.example.loan_service.model.Loan;
 import jakarta.transaction.Transactional;
@@ -10,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -95,6 +95,14 @@ public class LoanServiceImpl implements LoanService {
 
         log.info("Returning list with size: {}", listOfLoans.size());
         return listOfLoans;
+    }
+
+    @Override
+    public void initLoan(Long customerId) {
+        Loan loan = new Loan();
+        loan.setLoanDebt(BigDecimal.valueOf(100.00));
+        loan.setCustomerId(1L);
+        loan.setLoanDebt(BigDecimal.valueOf(0.00));
     }
 
 }

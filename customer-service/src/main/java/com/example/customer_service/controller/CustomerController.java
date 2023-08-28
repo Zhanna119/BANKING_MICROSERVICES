@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -139,16 +140,17 @@ public class CustomerController {
             @ApiResponse(code = 422, message = HTMLResponseMessages.HTTP_409),
             @ApiResponse(code = 500, message = HTMLResponseMessages.HTTP_500)
     })
-    ResponseEntity<Customer> saveCustomer(@Valid @RequestBody Customer customer) {
-        Customer data = service.saveCustomer(customer);
+    ResponseEntity<Customer> saveCustomer(@NotNull @Valid @RequestBody Customer customer) {
         if(service.getCustomerById(customer.getId()).isPresent()) {
             log.warn("Customer with this id already exists");
             return ResponseEntity.unprocessableEntity().build();
         }
+        Customer data = service.saveCustomer(customer);
         messageFuncActions.sendNewUserMessage(customer.getId());
         log.info("Customer entry saved");
         return ResponseEntity.ok(data);
     }
+
 
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Deletes customer entry with given id",
@@ -250,8 +252,6 @@ public class CustomerController {
             log.warn("Customer with id {} is not found", customerId);
             return ResponseEntity.notFound().build();
         }
-        // Отправляем сообщение внутренней шине
-        //messageNotificationService.sendCreditCardRequestNotification(customerId);
         List<CreditCard> creditCards = creditCardService.getAllCreditCardsByCustomerId(customerId);
         log.info("Credit card request for customer with id {} has been sent", customerId);
         return ResponseEntity.ok(creditCards);

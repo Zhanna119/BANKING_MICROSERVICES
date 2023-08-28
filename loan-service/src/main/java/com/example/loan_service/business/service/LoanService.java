@@ -12,4 +12,5 @@ public interface LoanService {
     Loan saveLoan(Loan loan);
     void deleteLoanById(Long id);
     List<Loan> getAllLoansByCustomerId(Long customerId);
+    void initLoan(Long customerId);
 }

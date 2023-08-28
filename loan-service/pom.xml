@@ -125,6 +125,13 @@
             <version>2.2.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-stream-rabbit -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+            <version>4.0.4</version>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

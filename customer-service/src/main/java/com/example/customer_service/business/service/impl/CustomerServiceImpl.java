@@ -76,6 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
         } log.info("Saving new Customer entry");
         return mapper.mapFromDao(repository.save(mapper.mapToDao(customer)));
     }
+
     
     @Override
     public void deleteCustomerById(Long id) {

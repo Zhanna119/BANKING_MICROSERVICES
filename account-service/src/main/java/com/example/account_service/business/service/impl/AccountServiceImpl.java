@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -107,4 +108,12 @@ public class AccountServiceImpl implements AccountService {
         return listOfAccounts;
     }
 
+    @Override
+    public void initAccount(Long customerId) {
+        Account account = new Account();
+        account.setCurrency("EUR");
+        account.setIban(String.valueOf(00000));
+        account.setCurrentBalance(BigDecimal.valueOf(0.00));
+        //repository.save(account);
+    }
 }
