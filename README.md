@@ -57,3 +57,5 @@ to read account service topics:
 
 ### Rabbit MQ:
 localhost:15672
+Username: guest
+Password: guest
