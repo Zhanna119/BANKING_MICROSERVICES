@@ -109,11 +109,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public void initAccount(Long customerId) {
         Account account = new Account();
+        account.setCustomerId(customerId);
         account.setCurrency("EUR");
         account.setIban(String.valueOf(00000));
         account.setCurrentBalance(BigDecimal.valueOf(0.00));
-        //repository.save(account);
+        repository.save(mapper.mapToDao(account));
     }
 }

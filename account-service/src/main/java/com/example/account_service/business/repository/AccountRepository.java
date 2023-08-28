@@ -9,6 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<AccountDAO, Long> {
-    //List<Account> getAllAccountsByCustomerId(Long customerId);
 }
 
