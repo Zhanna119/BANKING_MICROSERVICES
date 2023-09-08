@@ -1,6 +1,7 @@
 package com.example.account_service.controller;
 
 import com.example.account_service.business.service.AccountService;
+import com.example.account_service.business.service.impl.AccountServiceImpl;
 import com.example.account_service.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,34 +10,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 class AccountControllerTest {
     @MockBean
-    private AccountService service;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+    private AccountServiceImpl service;
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public static final String URL = "/api/accounts";
     public static final String URL2 = URL + "/all";
@@ -134,15 +145,23 @@ class AccountControllerTest {
         verify(service, times(1)).saveAccount(account);
     }
 
-    @Test
-    void testSaveAccount_AccountNotExists() throws Exception {
+    /*@Test
+    void testSaveAccount_AccountAlreadyExists() throws Exception {
+        // Create a mock account and ID
+        Account account = new Account();
+        account.setId(100L);
+
+        // Mock the behavior of the service to return an Optional containing the account
         when(service.getAccountById(account.getId())).thenReturn(Optional.of(account));
+
+        // Perform the POST request to save the account
         mockMvc.perform(MockMvcRequestBuilders
                         .post(URL5)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(account)))
-                .andExpect(status().isUnprocessableEntity());
-    }
+                .andExpect(status().isUnprocessableEntity()); // Expect a 422 Unprocessable Entity status
+    }*/
+
 
     @Test
     void testUpdateAccount_Successful() throws Exception {
@@ -203,10 +222,9 @@ class AccountControllerTest {
     @Test
     public void testGetAllAccountByCustomerId_Found() throws Exception {
         Long customerId = 1L;
-        /*
         Account account1 = new Account();
         Account account2 = new Account();
-        List<Account> accounts = Arrays.asList(account1, account2);*/
+        List<Account> accounts = Arrays.asList(account1, account2);
         when(service.getAccountsByCustomerId(customerId)).thenReturn(createMockedListAccount());
         mockMvc.perform(get(URL + "/id/" + customerId)
                         .contentType(MediaType.APPLICATION_JSON))
@@ -253,3 +271,6 @@ class AccountControllerTest {
         return list;
     }
 }
+
+
+

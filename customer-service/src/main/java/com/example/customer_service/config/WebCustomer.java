@@ -1,3 +1,4 @@
+/*
 package com.example.customer_service.config;
 
 import com.example.account_service.model.Account;
@@ -30,4 +31,5 @@ public class WebCustomer {
     }
 }
 
+*/
 

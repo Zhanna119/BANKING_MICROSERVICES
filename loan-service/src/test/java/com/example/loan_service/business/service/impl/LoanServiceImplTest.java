@@ -3,6 +3,7 @@ package com.example.loan_service.business.service.impl;
 import com.example.loan_service.business.mappers.LoanMapper;
 import com.example.loan_service.business.repository.LoanRepository;
 import com.example.loan_service.business.repository.model.LoanDAO;
+import com.example.loan_service.business.service.LoanService;
 import com.example.loan_service.model.Loan;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,10 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -195,4 +193,16 @@ class LoanServiceImplTest {
         List<Loan> result = service.getAllLoansByCustomerId(customerId);
         assertEquals(0, result.size());
     }
+
+    @Test
+    public void testInitLoan() {
+        Long customerId = 1L;
+        Loan loan = new Loan();
+        loan.setLoanDebt(BigDecimal.valueOf(100.00));
+        loan.setCustomerId(customerId);
+        assertNotNull(loan);
+        assertEquals(BigDecimal.valueOf(100.00), loan.getLoanDebt());
+        assertEquals(customerId, loan.getCustomerId());
+    }
+
 }

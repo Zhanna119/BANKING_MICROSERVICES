@@ -97,12 +97,11 @@ public class LoanServiceImpl implements LoanService {
         return listOfLoans;
     }
 
-    @Override
+   /* @Override
     public void initLoan(Long customerId) {
         Loan loan = new Loan();
         loan.setLoanDebt(BigDecimal.valueOf(100.00));
         loan.setCustomerId(1L);
         loan.setLoanDebt(BigDecimal.valueOf(0.00));
-    }
-
+    }*/
 }

@@ -15,7 +15,7 @@ public interface CustomerMapper {
 
     CustomerDAO mapToDao(Customer customer);
 
-    @Mapping(source = "accounts", target = "customerAccountIds")
+    /*@Mapping(source = "accounts", target = "customerAccountIds")
     Customer mapToDtoWithAccounts(CustomerDAO customerDAO, List<Account> accounts);
 
     default List<Long> mapAccountsToIds(List<Account> accounts) {
@@ -25,5 +25,5 @@ public interface CustomerMapper {
         return accounts.stream()
                 .map(Account::getId)
                 .collect(Collectors.toList());
-    }
+    }*/
 }

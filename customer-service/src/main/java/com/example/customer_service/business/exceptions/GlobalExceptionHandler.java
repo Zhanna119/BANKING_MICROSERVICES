@@ -13,7 +13,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import java.time.LocalDateTime;
 
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class
+GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

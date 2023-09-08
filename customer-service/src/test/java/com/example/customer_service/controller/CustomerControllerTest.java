@@ -1,4 +1,3 @@
-/*
 package com.example.customer_service.controller;
 
 import com.example.customer_service.business.service.CustomerService;
@@ -32,8 +31,6 @@ class CustomerControllerTest {
     @MockBean
     private CustomerService service;
 
-    @Autowired
-    private WebClient webClient;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -69,16 +66,10 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$[0].name", is(mockedData.get(0).getName())))
                 .andExpect(jsonPath("$[0].surname", is(mockedData.get(0).getSurname())))
                 .andExpect(jsonPath("$[0].identityNumber", is(mockedData.get(0).getIdentityNumber())))
-                .andExpect(jsonPath("$[0].customerAccountIds", is(mockedData.get(0).getCustomerAccountIds())))
-                .andExpect(jsonPath("$[0].customerLoansIds", is(mockedData.get(0).getCustomerLoansIds())))
-                .andExpect(jsonPath("$[0].customerCreditCardIds", is(mockedData.get(0).getCustomerCreditCardIds())))
                 .andExpect(jsonPath("$[1].id", is(mockedData.get(1).getId().intValue())))
                 .andExpect(jsonPath("$[1].name", is(mockedData.get(1).getName())))
                 .andExpect(jsonPath("$[1].surname", is(mockedData.get(1).getSurname())))
-                .andExpect(jsonPath("$[1].identityNumber", is(mockedData.get(1).getIdentityNumber())))
-                .andExpect(jsonPath("$[1].customerAccountIds", is(mockedData.get(1).getCustomerAccountIds())))
-                .andExpect(jsonPath("$[1].customerLoansIds", is(mockedData.get(1).getCustomerLoansIds())))
-                .andExpect(jsonPath("$[1].customerCreditCardIds", is(mockedData.get(1).getCustomerCreditCardIds())));
+                .andExpect(jsonPath("$[1].identityNumber", is(mockedData.get(1).getIdentityNumber())));
         verify(service, times(1)).getAllCustomers();
     }
 
@@ -122,10 +113,7 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Name")))
                 .andExpect(jsonPath("$.surname", is("Surname")))
-                .andExpect(jsonPath("$.identityNumber", is("IdentityNumber")))
-                .andExpect(jsonPath("$.customerAccountIds").value(nullValue()))
-                .andExpect(jsonPath("$.customerLoansIds").value(nullValue()))
-                .andExpect(jsonPath("$.customerCreditCardIds").value(nullValue()));
+                .andExpect(jsonPath("$.identityNumber", is("IdentityNumber")));
         verify(service, times(1)).saveCustomer(customer);
     }
 
@@ -151,10 +139,7 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.name", is("Name")))
                 .andExpect(jsonPath("$.surname", is("Surname")))
-                .andExpect(jsonPath("$.identityNumber", is("IdentityNumber")))
-                .andExpect(jsonPath("$.customerAccountIds").value(nullValue()))
-                .andExpect(jsonPath("$.customerLoansIds").value(nullValue()))
-                .andExpect(jsonPath("$.customerCreditCardIds").value(nullValue()));
+                .andExpect(jsonPath("$.identityNumber", is("IdentityNumber")));
         verify(service, times(1)).editCustomer(1L, customer);
     }
 
@@ -205,10 +190,7 @@ class CustomerControllerTest {
                 1L,
                 "Name",
                 "Surname",
-                "IdentityNumber",
-                null,
-                null,
-                null);
+                "IdentityNumber");
     }
 
     private List<Customer> createMockedListCustomer() {
@@ -217,18 +199,12 @@ class CustomerControllerTest {
                 1L,
                 "Name",
                 "Surname",
-                "IdentityNumber",
-                null,
-                null,
-                null));
+                "IdentityNumber"));
         list.add(new Customer(
                 2L,
                 "Name2",
                 "Surname2",
-                "IdentityNumber2",
-                null,
-                null,
-                null));
+                "IdentityNumber2"));
         return list;
     }
-}*/
+}

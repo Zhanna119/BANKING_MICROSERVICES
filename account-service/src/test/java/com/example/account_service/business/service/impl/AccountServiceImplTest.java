@@ -199,6 +199,19 @@ class AccountServiceImplTest {
         assertEquals(0, result.size());
     }
 
+    @Test
+    public void testInitAccount_Successful() {
+        Long customerId = 1L;
+        Account account = new Account();
+        account.setCustomerId(customerId);
+        account.setCurrency("EUR");
+        account.setIban(String.valueOf(00000));
+        account.setCurrentBalance(BigDecimal.valueOf(0.00));
+        when(mapper.mapToDao(account)).thenReturn(accountDAO);
+        service.initAccount(customerId);
+        verify(repository).save(any());
+    }
+
     private List<AccountDAO> createAccountDAOList(AccountDAO accountDAO) {
         List<AccountDAO> list = new ArrayList<>();
         list.add(accountDAO);
