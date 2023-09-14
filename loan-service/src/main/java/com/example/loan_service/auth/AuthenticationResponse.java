@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
+//todo а не хочешь oauth 2.0 ?
 public class AuthenticationResponse {
 
     private String token;

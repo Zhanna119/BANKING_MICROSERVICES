@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+//todo почему таблица названа во множественном числе?
 @Table(name = "loans")
 public class LoanDAO {
 

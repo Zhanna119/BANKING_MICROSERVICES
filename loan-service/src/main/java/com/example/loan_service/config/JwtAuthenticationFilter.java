@@ -21,6 +21,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
+    //todo почему серый? неправильная вставка через конструктор
     private UserDetailsService userDetailsService;
 
     @Override
@@ -43,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if(jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
-                        null,
+                        jwt,
                         userDetails.getAuthorities()
                 );
                 authToken.setDetails(

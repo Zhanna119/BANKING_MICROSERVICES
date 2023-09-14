@@ -20,18 +20,28 @@ import static org.springframework.http.HttpMethod.GET;
 public class SecurityConfiguration {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
+
+    //todo можно сделать свой провайдер
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+//                .formLogin()
+//                .disable()
+//                //formLogin()
+//                .cors()
+//                .and()
+//                //cors?
+//                //logout
+
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers(
                         "/api/v1/auth/**",
                         "/api/loans/**")
-                .permitAll()
+                .permitAll() //todo что это значит?
                 /*.requestMatchers("/api/loans/**").hasAnyRole("ADMIN")
                 .requestMatchers("/api/loanPayments/**").hasAnyRole("ADMIN")
                 .requestMatchers(GET, "/api/loans/all").hasAnyRole("AUDIT")
@@ -46,7 +56,8 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authenticationProvider(authenticationProvider)
+                //todo что делает фильтр?
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-    return http.build();
+        return http.build();
     }
 }

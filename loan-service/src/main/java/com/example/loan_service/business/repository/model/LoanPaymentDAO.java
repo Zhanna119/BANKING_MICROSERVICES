@@ -33,7 +33,7 @@ public class LoanPaymentDAO {
     private LoanDAO loanDAO;
 
     @Column(name = "loan_payment_date")
-    @NotNull
+    @NotNull //todo detracted. надо поменять пакет
     private LocalDate loanPaymentDate;
     @Positive(message = "Payment amount must be a positive number")
     @Column(name = "payment_amount")

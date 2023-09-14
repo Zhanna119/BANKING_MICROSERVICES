@@ -27,6 +27,8 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
+
+        //todo а если есть уже такой пользователь?
         var savedUser = repository.save(user);
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
@@ -42,7 +44,7 @@ public class AuthenticationService {
                 )
         );
         var user = repository.findByEmail(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(); //todo можно добавить эксепшен подробнее и залогировать
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
