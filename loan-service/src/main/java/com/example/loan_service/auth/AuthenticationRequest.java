@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
+    //todo почему разные уровни доступа?
     private String email;
     String password;
 }

@@ -16,6 +16,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
+
+    //todo а как мне его быстро поменять? вынести в настройки
     private static final String SECRET_KEY = "otCPQQYP/vGzXR2vawYSbm0sRMQe/No+vd6cvL90lyDRRpAW9wGQXptx5Zfbnpmh\n";
 
     public String extractUsername(String token) {
@@ -48,13 +50,13 @@ public class JwtService {
             Map<String, Object> extraClaims,
             UserDetails userDetails
     ) {
-       return Jwts.builder()
-               .setClaims(extraClaims)
-               .setSubject(userDetails.getUsername())
-               .setIssuedAt(new Date(System.currentTimeMillis()))
-               .setExpiration(new Date(System.currentTimeMillis() +1000 * 60 * 24))
-               .signWith(getSignInKey(), SignatureAlgorithm.HS256)
-               .compact();
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     private Claims extractAllClaims(String token) {

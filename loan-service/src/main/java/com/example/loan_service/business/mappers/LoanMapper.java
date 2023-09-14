@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//todo как сделать чтобы везде не писать spring?
 @Mapper(componentModel = "spring")
 public interface LoanMapper {
     Loan mapFromDao(LoanDAO loanDAO);
@@ -22,6 +23,7 @@ public interface LoanMapper {
 
     default LoanPaymentDAO mapToLoanPaymentDAO(Long id) {
         LoanPaymentDAO loanPaymentDAO = new LoanPaymentDAO();
+        //todo ??
         //loanPaymentDAO.setId(id);
         return loanPaymentDAO;
     }
